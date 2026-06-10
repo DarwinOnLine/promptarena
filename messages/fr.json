@@ -1,0 +1,10 @@
+{
+  "metadata": {
+    "title": "{app} — playground d'évaluation de LLM",
+    "description": "Comparez et jugez les sorties de plusieurs LLM côte à côte : coût, tokens et latence à la vue de tous."
+  },
+  "home": {
+    "tagline": "Évaluez et comparez des LLM côte à côte — coût, tokens et latence à la vue de tous.",
+    "subtitle": "Un playground d'évaluation de LLM en boîte de verre · bientôt en ligne."
+  }
+}
