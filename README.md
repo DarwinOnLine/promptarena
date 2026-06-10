@@ -7,7 +7,7 @@ score the outputs — with **cost, tokens and latency in plain sight**.
 🔗 **Live demo:** https://promptarena-ai.vercel.app/
 
 > 🚧 **Work in progress.** The walking skeleton is deployed (see status below); features
-> are being built incrementally. This is a portfolio project — the engineering *is* the
+> are being built incrementally. This is a portfolio project — the engineering _is_ the
 > point: clean architecture, observability, and AI you can actually trust in production.
 
 ## Why "glass box"
