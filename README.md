@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Promptarena
 
-## Getting Started
+A glass-box LLM evaluation playground: define a task with natural-language quality
+criteria, fan it out across multiple providers in parallel, and let an LLM-as-judge
+score the outputs — with **cost, tokens and latency in plain sight**.
 
-First, run the development server:
+🔗 **Live demo:** https://promptarena-ai.vercel.app/
+
+> 🚧 **Work in progress.** The walking skeleton is deployed (see status below); features
+> are being built incrementally. This is a portfolio project — the engineering *is* the
+> point: clean architecture, observability, and AI you can actually trust in production.
+
+## Why "glass box"
+
+Most LLM apps hide the machinery. Promptarena exposes it on purpose — the provider
+routing, the cost ticking up, the judge's verdict and its reasoning. The goal isn't a
+demo that looks impressive; it's one that shows the engineering underneath.
+
+## Planned capabilities
+
+- **Multi-provider fan-out** behind a single in-house abstraction (OpenAI, Anthropic,
+  Gemini, Groq…) — adding a provider is one adapter, nothing else changes.
+- **LLM-as-judge** scoring each output against natural-language criteria (verdict,
+  confidence, justification), with schema-validated structured output.
+- **Cost & token observability** per call, with a configurable cost guardrail.
+- **Snapshots & regression** — save a run, replay it later, compare.
+- **Mock-first**: works with zero API keys (deterministic mock adapter); real providers
+  via bring-your-own-key.
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) (App Router) · TypeScript (strict) · Tailwind CSS
+- [next-intl](https://next-intl.dev) for i18n (FR)
+- Vitest (tests) · ESLint + Prettier (quality)
+- CI: GitHub Actions (lint · typecheck · format) — CD: Vercel
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # dev server on http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Other scripts:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build        # production build
+npm run start        # serve the production build
+npm run lint         # ESLint
+npm run typecheck    # tsc --noEmit
+npm run format       # Prettier (write)
+npm run format:check # Prettier (check only — same gate as CI)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture principle
 
-## Learn More
+The `src/domain/` layer holds pure business logic (pricing, cost aggregation, judging)
+with **zero framework or SDK dependency**. Providers, persistence and the Next.js UI
+live in `src/infra/` and `src/app/` and depend on the domain — never the reverse. Swap
+Next or a provider tomorrow, the domain doesn't move.
 
-To learn more about Next.js, take a look at the following resources:
+## Status
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ✅ **M0** — walking skeleton: deployed end-to-end (Next.js + strict TS, CI/CD, i18n,
+  Prettier).
+- ⏳ **M1** — domain core (types, pricing, cost calculation) — next up.
